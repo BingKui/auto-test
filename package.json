@@ -1,0 +1,17 @@
+{
+  "name": "auto-test",
+  "version": "1.0.0",
+  "description": "自动化测试项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "auto-test"
+  ],
+  "author": "康兵奎",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^3.0.2"
+  }
+}
