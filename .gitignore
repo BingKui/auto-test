@@ -65,3 +65,4 @@ cypress/integration/*
 cypress/screenshots/*
 cypress/videos/*
 cypress/utils/*
+.DS_Store

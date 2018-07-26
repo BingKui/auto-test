@@ -100,11 +100,32 @@ const inputBlur = (classParam) => {
     el.blur();
 }
 
+/**
+ * 
+ * @param {String} selector 选择器，class 或者 id
+ * @param {String} itemSelector 值选项选择器，class 或者 id
+ * @param {String} value 需要匹配的值
+ * @param {Function} callback 回调函数，参数为获得的符合的元素对象
+ * @param {String} scope 范围选择器，顶级容器的 class 或者 id， 用来区分不同容器中的元素，默认值：baseScope
+ */
+const queryElementByValue = (selector, itemSelector, value, callback, scope = baseScope) => {
+    queryElement(selector, scope).find(itemSelector).then((els) => {
+        for (let i = 0; i < els.length; i++) {
+            const item = cy.$$(els[i]);
+            if (item.text() === value) {
+                callback && callback(item);
+                break;s
+            }
+        }
+    });
+}
+
 module.exports = {
     randomArr,
     queryElement,
     queryAllElement,
     queryByIndex,
+    queryElementByValue,
     url,
     inputFocus,
     inputBlur,
