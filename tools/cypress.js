@@ -101,6 +101,7 @@ const inputBlur = (classParam) => {
 }
 
 module.exports = {
+    randomArr,
     queryElement,
     queryAllElement,
     queryByIndex,
