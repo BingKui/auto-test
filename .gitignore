@@ -61,8 +61,8 @@ typings/
 .next
 
 *.md
-cypress/integration/*
-cypress/screenshots/*
-cypress/videos/*
-cypress/utils/*
+# cypress/integration/*
+# cypress/screenshots/*
+# cypress/videos/*
+# cypress/utils/*
 .DS_Store

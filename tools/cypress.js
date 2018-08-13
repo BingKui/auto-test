@@ -85,9 +85,9 @@ const clickRandom = (classParam, num = 0) => {
     });
 }
 
-const inputSetValue = (classParam, val) => {
+const inputSetValue = (classParam, val, comparisonVal) => {
     const el = queryElement(classParam);
-    el.type(val).should('have.value', val);
+    el.type(val).should('have.value', comparisonVal ? comparisonVal : val);
 }
 
 const inputFocus = (classParam) => {

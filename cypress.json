@@ -1,7 +1,7 @@
 {
-  "baseUrl": "http://localhost:5000",
+  "baseUrl": "http://dev.luedongtech.com/",
   "viewportWidth": 1200,
   "viewportHeight": 760,
-  "videoCompression": 0,
-  "projectId": "69b6v4"
+  "videoCompression": 30,
+  "projectId": "nwe9a1"
 }
