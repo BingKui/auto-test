@@ -32,7 +32,7 @@ describe('会员相关测试', () => {
         rate: '90',
         threshold: '30',
         subtract: '10',
-        rechargeName: `AutoTest-充值方案-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`,
+        rechargeName: `AT-充值方案-${now.getHours()}${now.getMinutes()}${now.getSeconds()}`,
     };
 
     login()
@@ -64,23 +64,27 @@ describe('会员相关测试', () => {
     })
 
     it('新建会员折扣', () => {
+        clickTopLevelMenu(4);
         clickSecondaryMenu(1);
         clickGroupBtn(0, '.page-search-params-container');
         Tools.inputSetValue('#name', data.discountName);
         clickRadioButton(0, 1);
         Tools.inputSetValue('#threshold', data.threshold);
         Tools.inputSetValue('#subtract', data.subtract);
-        clickSelect(0, 0)
+        clickSelect(0, 0);
+        clickCheckbox(0);
         clickGroupMultiList(0, 0);
         selectGroupRandowMultiList(2, 1);
         clickGroupBtn(0, '.form-button-container');
     })
     it('删除会员折扣数据', () => {
+        clickSecondaryMenu(1);
         searchInput(data.discountName);
         clickTableOperatorBtn(data.discountName, 2)
         clickPopover(1);
     })
     it('新建充值方案', () => {
+        clickTopLevelMenu(4);
         const start = dayjs().format('YYYY-MM-DD HH:mm:ss');
         const end = dayjs().add(10, 'day').format('YYYY-MM-DD HH:mm:ss');
         clickSecondaryMenu(2);

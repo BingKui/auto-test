@@ -10,6 +10,10 @@ export const beforeSetting = () => {
 
 export const afterClear = () => {
     return it('清楚浏览器数据，还原环境', () => {
+        const loginoutBtn = Tools.queryAllElement('.main-header-operations').last();
+        if (loginoutBtn) {
+            loginoutBtn.click();
+        }
         cy.clearCookies();
     });
 }
@@ -65,6 +69,7 @@ export const clickSelect = (index, valIndex, selector = '.main-content-container
     Tools.queryElement(selector).find('.ant-select-selection').eq(index).click();
     cy.wait(300);
     Tools.queryByIndex('.ant-select-dropdown .ant-select-dropdown-menu-item', valIndex).click();
+    Tools.queryElement('body').click(0, 0);
     cy.wait(300)
 }
 
@@ -185,8 +190,9 @@ export const selectStartAndEndDate = (index, start, end, selector = '.main-conte
     // 等待1s页面加载
     cy.wait(1000);
     Tools.queryElement(selector).find('.ant-calendar-picker-input').eq(index).click();
-    Tools.queryElement('.ant-calendar-picker-container').find('.ant-calendar-range-left .ant-calendar-input').type(start);
-    Tools.queryElement('.ant-calendar-picker-container').find('.ant-calendar-range-right .ant-calendar-input').type(end);
+    // 根据时间选择相应的时间
+    selectDateByValue(start, '.ant-calendar-picker-container .ant-calendar-range-part.ant-calendar-range-left');
+    selectDateByValue(end, '.ant-calendar-picker-container .ant-calendar-range-part.ant-calendar-range-right');
     Tools.queryElement('.ant-calendar-picker-container').find('.ant-calendar-footer-btn .ant-calendar-ok-btn').click();
 }
 
@@ -212,7 +218,7 @@ export const selectTime = (index, value, selector = '.main-content-container') =
 export const searchInput = (value, selector = '.page-search-params-container') => {
     // 等待1s页面加载
     cy.wait(1000);
-    Tools.queryElement(`${selector} .ant-input-search`).type(`${value}{enter}`);
+    Tools.queryElement(`${selector} .ant-input-search`).clear().type(`${value}{enter}`);
     // 等待两秒数据加载
     cy.wait(2000);
 }
@@ -422,3 +428,38 @@ export const selectGroupRandowMultiList = (num, index = 0, selector = '.multi-se
         }
     });
 }
+
+/**
+ * 根据日期选择日历中的日期
+ * @param {String} dateString 日期字符串
+ * @param {String} selector 默认容器选择
+ */
+const selectDateByValue = (dateString, selector = '.ant-calendar-range-part') => {
+    const datePanel = Tools.queryElement(selector);
+    const dateArr = dateString.split(' ')[0].split('-');
+    // const yearSelectBtn = datePanel.find('.ant-calendar-year-select').first();
+    // const monthSelectBtn = datePanel.find('.ant-calendar-header .ant-calendar-month-select').first();
+    // 判断年份是否相同
+    // if (yearSelectBtn.innerHTML !== dateArr[0]) {
+        // 选择年份
+    // }
+    // 判断是否是当前月份
+    // if (monthSelectBtn.innerHTML !== dateArr[1]) {
+        // 选择相应月份
+    // }
+    // 选择日期
+    datePanel.find('.ant-calendar-date').then((els) => {
+        let flag = false;
+        for (let i = 0; i < els.length; i++) {
+            const item = parseInt(els[i].innerHTML);
+            const val = item > 10 ? `${item}` : `0${item}`;
+            if (val === '01') {
+                flag = true;
+            }
+            if (flag && val === dateArr[2]) {
+                cy.$$(els[i]).click();
+                break;
+            }
+        }
+    });
+};

@@ -1,5 +1,4 @@
 const Tools = require('../../../tools/cypress.js');
-const dayjs = require('dayjs');
 import {
     login,
     clickTopLevelMenu,
@@ -15,7 +14,7 @@ describe('设置相关测试', () => {
 
     const data = {
         name: `AT厨打方案${now.getHours()}${now.getMinutes()}${now.getSeconds()}`,
-        changeName: `修改`,
+        changeName: `AT厨打方案${now.getHours()}${now.getMinutes()}${now.getSeconds()}修改`,
     };
 
     login()
@@ -28,8 +27,7 @@ describe('设置相关测试', () => {
     })
     it('修改厨打方案名称', () => {
         clickTableOperatorBtn(data.name, 0);
-        // Tools.inputSetValue('#name', '');
-        Tools.inputSetValue('#name', data.changeName, `${data.name}${data.changeName}`);
+        Tools.inputSetValue('#name', data.changeName);
         clickModalBtn(1);
     })
     it('删除厨打方案', () => {
