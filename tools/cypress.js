@@ -90,6 +90,19 @@ const inputSetValue = (classParam, val, comparisonVal) => {
     el.clear().type(val).should('have.value', comparisonVal ? comparisonVal : val);
 }
 
+const modalInputSetValue = (selector, val) => {
+    queryAllElement('.ant-modal-wrap').then((els) => {
+        for (let i = 0; i < els.length; i++) {
+            const item = els[i];
+            const hide = item.style.display === 'none';
+            if (!hide) {
+                queryByIndex('.ant-modal-wrap', i).find(selector).first().clear().type(val).should('have.value', val);
+                break;
+            }
+        }
+    });
+}
+
 const inputFocus = (classParam) => {
     const el = queryElement(classParam);
     el.focus();
@@ -133,4 +146,5 @@ module.exports = {
     click,
     clickRandom,
     sleep,
+    modalInputSetValue,
 }
