@@ -2,11 +2,9 @@ const Tools = require('../../../tools/cypress.js');
 import {
   login,
   clickModalBtn,
-  clickTopLevelMenu,
   clickGroupBtn,
   clickTableOperatorBtn,
   selectRandowMultiList,
-  clickSecondaryMenu,
   clickPopover,
   clickSelectByValue,
   searchInput,
@@ -72,6 +70,7 @@ describe('门店相关操作', () => {
     })
 
     it('删除门店', () => {
+        searchInput(data.storeName);
         clickTableOperatorBtn(data.name, 4)
         clickPopover(1);
     })

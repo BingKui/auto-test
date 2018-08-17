@@ -137,6 +137,35 @@ export const clickModalSelect = (index, valIndex, selector = '') => {
 }
 
 /**
+ * 通过值来选择 modal 中的下拉框
+ * @param {Number} index 容器中下拉选择的顺序下标，从 0 开始
+ * @param {String} val 需要选中的值
+ * @param {String} selector 顶层容器的class选择器，class属性或者id名，默认值：‘.main-content-container’
+ */
+export const clickModalSelectByValue = (index, val, selector = '') => {
+    cy.wait(600);
+    Tools.queryAllElement(`${selector}.ant-modal-wrap`).then((els) => {
+        for (let i = 0; i < els.length; i++) {
+            const item = els[i];
+            const hide = item.style.display === 'none';
+            if (!hide) {
+                Tools.queryByIndex(`${selector}.ant-modal-wrap`, i).find('.ant-select-selection').eq(index).click();
+                Tools.queryAllElement('.ant-select-dropdown').not('.ant-select-dropdown-hidden').find('.ant-select-dropdown-menu-item').then((els) => {
+                    for (let i = 0; i < els.length; i++) {
+                        const item = els[i].innerHTML;
+                        if (item === val) {
+                            cy.$$(els[i]).click();
+                            break;
+                        }
+                    }
+                });
+                break;
+            }
+        }
+    });
+}
+
+/**
  * 容器内下拉框选择器公共选择方法
  * @param {Number} index 容器中需要点击的下拉框顺序下标，从 0 开始
  * @param {Number} valIndex 需要选择的项的下边，从 0 开始
@@ -474,6 +503,37 @@ export const clickMultiInput = (index, valIndex=0, selector = '.main-content-con
     cy.wait(600);
     Tools.queryElement(`${selector} .multi-select.touch-in-area`).eq(index).click();
     Tools.queryElement('.multi-select-list-container.touch-in-area').last().find('.multi-select-list').eq(valIndex).click();
+    Tools.queryElement('body').click(0, 0);
+}
+
+/**
+ * 选择页面中需要点击的下拉 multi，页面中不存在显示的 multi 选择
+ * @param {Number} index 索引下标， 从 0 开始
+ * @param {String} value 需要选中的值
+ * @param {String} selector 容器 class 或者 id，默认值：‘.main-content-container’
+ */
+export const clickMultiInputByValue = (index, value, selector = '.main-content-container') => {
+    cy.wait(600);
+    Tools.queryElement(`${selector} .multi-select.touch-in-area`).eq(index).click();
+    Tools.queryElement('.multi-select-list-container.touch-in-area').then((els) => {
+        for (let i = 0; i < els.length; i++) {
+            const item = els[i];
+            const hide = item.style.display === 'none';
+            if (!hide) {
+                cy.$$(item).find('.multi-select-list').then((elements) => {
+                    for (let j = 0; j < elements.length; j++) {
+                        const item = elements[j].innerHTML;
+                        if (item === val) {
+                            cy.$$(elements[j]).click();
+                            break;
+                        }
+                    }
+                });
+                break;
+            }
+        }
+    });
+    // Tools.queryElement('.multi-select-list-container.touch-in-area').last().find('.multi-select-list').eq(valIndex).click();
 }
 
 /**
@@ -484,6 +544,46 @@ export const clickMultiInput = (index, valIndex=0, selector = '.main-content-con
 export const clickMultiList = (index, selector = '.multi-select-list-container') => {
     cy.wait(600);
     Tools.queryElement(selector).find('.multi-select-list-ul .multi-select-list').eq(index).click();
+}
+
+/**
+ * 选择 modal 中 输入下拉框的值
+ * @param {Number} index 输入框下拉选择的下标，从 0 开始
+ * @param {String} val 值
+ * @param {String} selector 容器选择器，class 或者 id，默认值：‘.multi-select-list-container’
+ */
+export const clickModalMultiInputByValue = (index, val, selector = '') => {
+    cy.wait(600);
+    Tools.queryAllElement(`${selector}.ant-modal-wrap`).then((els) => {
+        for (let i = 0; i < els.length; i++) {
+            const item = els[i];
+            const hide = item.style.display === 'none';
+            if (!hide) {
+                Tools.queryByIndex(`${selector}.ant-modal-wrap`, i).find('.multi-select.touch-in-area').eq(index).click();
+                const areaData = Tools.queryElement('.multi-select-list-container.touch-in-area');
+                areaData.then((els) => {
+                    for (let i = 0; i < els.length; i++) {
+                        const item = els[i];
+                        const hide = item.style.display === 'none';
+                        if (!hide) {
+                            areaData.eq(i).find('.multi-select-list').then((elements) => {
+                                for (let j = 0; j < elements.length; j++) {
+                                    const value = elements[j].innerHTML;
+                                    if (value === val) {
+                                        cy.$$(elements[j]).click();
+                                        Tools.queryElement('body').click(0, 0);
+                                        break;
+                                    }
+                                }
+                            });
+                            break;
+                        }
+                    }
+                });
+                break;
+            }
+        }
+    });
 }
 
 /**
