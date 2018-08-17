@@ -12,7 +12,7 @@
   "author": "康兵奎",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^3.0.3"
+    "cypress": "^3.1.0"
   },
   "dependencies": {
     "dayjs": "^1.7.4"

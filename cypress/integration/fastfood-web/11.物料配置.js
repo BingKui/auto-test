@@ -11,6 +11,7 @@ import {
     clickSelectByValue,
     clickTableExpand,
     clickPopover,
+    redirectTo,
 } from '../../utils/fastfood-web';
 
 describe('物料配置', () => {
@@ -27,14 +28,7 @@ describe('物料配置', () => {
 
     login()
 
-    it('进入物料配置菜单', () => {
-        clickTopLevelMenu(6);
-        clickSecondaryMenu(4);
-    })
-
-    // it('方法测试', () => {
-    //     clickTableExpand('猪肉', '.ant-tabs-tabpane-active');
-    // })
+    redirectTo('物料配置', 6, 4)
 
     it('新增大类', () => {
         clickGroupBtn(0, '.material-super-type-tabs .ant-tabs-bar');

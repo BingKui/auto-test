@@ -3,8 +3,6 @@ const Tools = require('../../../tools/cypress.js');
 import {
     login,
     clickGroupBtn,
-    clickTopLevelMenu,
-    clickSecondaryMenu,
     clickSelectByValue,
     clickMultiInput,
     searchInput,
@@ -12,7 +10,8 @@ import {
     clickCheckbox,
     clickPopover,
     afterClear,
-} from '../../utils/fastfood-web';
+    redirectTo,
+} from '../../utils/fastfood-web.js';
 
 describe('菜品管理', () => {
     const now = new Date();
@@ -27,9 +26,9 @@ describe('菜品管理', () => {
 
     login();
 
+    redirectTo('菜品菜类', 1, 1)
+
     it('新建单品', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(1);
         clickGroupBtn(0, '.ant-tabs-tabpane-active .page-params-container');
         Tools.inputSetValue('#name', data.name);
         Tools.inputSetValue('#phonetic', data.shortName);
@@ -37,9 +36,10 @@ describe('菜品管理', () => {
         Tools.inputSetValue('#price', data.price);
         clickGroupBtn(0, '.form-button-container');
     })
+
+    redirectTo('菜品菜类', 1, 1)
     
     it('新建套餐', () => {
-        clickSecondaryMenu(1);
         clickGroupBtn(1, '.ant-tabs-tabpane-active .page-params-container');
         Tools.inputSetValue('#name', data.packageName);
         Tools.inputSetValue('#phonetic', data.packageShortName);
@@ -49,29 +49,37 @@ describe('菜品管理', () => {
         clickGroupBtn(0, '.product-sub-prods-form');
         clickGroupBtn(0, '.form-button-container')
     })
+
+    redirectTo('菜品菜类', 1, 1)
+
     it('修改单品', () => {
-        clickSecondaryMenu(1);
         searchInput(data.name, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.name, 2, 1, '.ant-tabs-tabpane-active');
         clickCheckbox(0);
         clickGroupBtn(0, '.form-button-container');
     })
+
+    redirectTo('菜品菜类', 1, 1)
+
     it('修改套餐', () => {
-        clickSecondaryMenu(1);
         searchInput(data.packageName, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.packageName, 2, 1, '.ant-tabs-tabpane-active');
         clickMultiInput(0, 1);
         clickGroupBtn(0, '.product-sub-prods-form');
         clickGroupBtn(0, '.form-button-container')
     })
+
+    redirectTo('菜品菜类', 1, 1)
+
     it('删除套餐', () => {
-        clickSecondaryMenu(1);
         searchInput(data.packageName, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.packageName, 1, 1, '.ant-tabs-tabpane-active');
         clickPopover(1);
     })
+
+    redirectTo('菜品菜类', 1, 1)
+
     it('删除菜品', () => {
-        clickSecondaryMenu(1);
         searchInput(data.name, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.name, 1, 1, '.ant-tabs-tabpane-active');
         clickPopover(1);

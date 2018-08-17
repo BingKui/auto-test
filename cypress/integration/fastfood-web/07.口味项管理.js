@@ -10,6 +10,7 @@ import {
     clickTableOperatorBtn,
     clickPopover,
     afterClear,
+    redirectTo,
 } from '../../utils/fastfood-web.js';
 
 describe('口味项管理', () => {
@@ -21,9 +22,9 @@ describe('口味项管理', () => {
 
     login()
 
+    redirectTo('口味', 1, 2)
+
     it('新增口味项', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(2);
         clickGroupBtn(0, '.page-search-params-container');
         Tools.inputSetValue('#name', data.name);
         clickModalBtn(1);

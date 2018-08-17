@@ -19,13 +19,25 @@ export const afterClear = () => {
 }
 
 /**
+ * 
+ * @param {String} menuName 菜单名称
+ * @param {Number} topIndex 顶级菜单下标，从 0 开始
+ * @param {Number} secondIndex 次级菜单下标，从 0 开始
+ */
+export const redirectTo = (menuName, topIndex, secondIndex) => {
+    return it(`跳转到${menuName}菜单`, () => {
+        clickTopLevelMenu(topIndex);
+        clickSecondaryMenu(secondIndex);
+    });
+}
+
+/**
  * 登录公共模块
  */
 export const login = () => {
     return it('登录!', () => {
-        Tools.url('/');
         cy.clearCookies();
-        Tools.click(['.container', '.btn-orange2']);
+        Tools.url('/auth/login');
         Tools.inputSetValue(['#mobile'], '测试门店');
         Tools.inputSetValue(['#user'], 'admin');
         Tools.inputSetValue(['#password'], '000000');
@@ -45,7 +57,7 @@ export const login = () => {
 export const clickTableOperatorBtn = (name, index, valIndex = 0, selector = '.main-content-container') => {
     // 点击前等待1s数据重新刷新列表
     // 等待3s页面加载
-    cy.wait(300);
+    cy.wait(2000);
     cy.get(selector).first().find('.ant-table-tbody .ant-table-row').then((els) => {
         for (let i = 0; i < els.length; i++) {
             const item = els[i];
@@ -68,7 +80,7 @@ export const clickTableOperatorBtn = (name, index, valIndex = 0, selector = '.ma
 export const clickTableOperatorText = (name, index, valIndex = 0, selector = '.main-content-container') => {
     // 点击前等待1s数据重新刷新列表
     // 等待3s页面加载
-    cy.wait(300);
+    cy.wait(2000);
     cy.get(selector).first().find('.ant-table-tbody .ant-table-row').then((els) => {
         for (let i = 0; i < els.length; i++) {
             const item = els[i];
@@ -109,7 +121,7 @@ export const clickTableExpand = (value, selector = '.main-content-container') =>
  * @param {String} selector 顶层容器的class选择器，class属性或者id名，默认值：‘’
  */
 export const clickModalSelect = (index, valIndex, selector = '') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryAllElement(`${selector}.ant-modal-wrap`).then((els) => {
         for (let i = 0; i < els.length; i++) {
             const item = els[i];
@@ -131,7 +143,7 @@ export const clickModalSelect = (index, valIndex, selector = '') => {
  * @param {String} selector 顶层容器的class选择器，class属性或者id名，默认值：‘.main-content-container’
  */
 export const clickSelect = (index, valIndex, selector = '.main-content-container') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-select-selection').eq(index).click();
     Tools.queryByIndex('.ant-select-dropdown .ant-select-dropdown-menu-item', valIndex).click();
     Tools.queryElement('body').click(0, 0);
@@ -144,7 +156,7 @@ export const clickSelect = (index, valIndex, selector = '.main-content-container
  * @param {String} selector 顶层容器的class选择器，class属性或者id名，默认值：‘.main-content-container’
  */
 export const clickSelectByValue = (index, val, selector = '.main-content-container') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-select-selection.ant-select-selection--single').eq(index).click();
     Tools.queryAllElement('.ant-select-dropdown').not('.ant-select-dropdown-hidden').find('.ant-select-dropdown-menu-item').then((els) => {
         for (let i = 0; i < els.length; i++) {
@@ -164,7 +176,7 @@ export const clickSelectByValue = (index, val, selector = '.main-content-contain
 export const clickTopLevelMenu = (index) => {
     // 等待2s页面加载
     cy.wait(300);
-    Tools.queryByIndex('#root .main-content-container .main-nav-box .ant-menu-item', index).click();
+    Tools.queryByIndex('.main-content-container .main-nav-box .ant-menu-item', index).click();
 }
 
 /**
@@ -174,7 +186,7 @@ export const clickTopLevelMenu = (index) => {
 export const clickSecondaryMenu = (index) => {
     // 等待2s页面加载
     cy.wait(300);
-    Tools.queryByIndex('#root .main-content-container .content-container .nav-box .ant-menu-item', index).click();
+    Tools.queryByIndex('.main-content-container .content-container .nav-box .ant-menu-item', index).click();
 }
 
 /**
@@ -184,9 +196,8 @@ export const clickSecondaryMenu = (index) => {
  */
 export const changeTab = (index, selector = '.main-content') => {
     // 等待2s页面加载
-    cy.wait(2000);
+    cy.wait(1000);
     Tools.queryElement(selector).find('.ant-tabs-nav .ant-tabs-tab').eq(index).click();
-    cy.wait(300)
 }
 
 /**
@@ -196,7 +207,7 @@ export const changeTab = (index, selector = '.main-content') => {
  */
 export const changeTabByValue = (value, selector = '.main-content') => {
     // 等待2s页面加载
-    cy.wait(2000);
+    cy.wait(1000);
     Tools.queryElement(selector).find('.ant-tabs-nav .ant-tabs-tab').then((els) => {
         for (let i = 0; i < els.length; i++) {
             const item = els[i];
@@ -207,7 +218,6 @@ export const changeTabByValue = (value, selector = '.main-content') => {
             }
         }
     });
-    cy.wait(300)
 }
 
 /**
@@ -217,7 +227,7 @@ export const changeTabByValue = (value, selector = '.main-content') => {
  */
 export const clickPopover = (index, selector = '.ant-popover') => {
     // 等待2s页面加载
-    cy.wait(1000);
+    cy.wait(600);
     Tools.queryAllElement(selector).not('.ant-popover-hidden').first().find('.ant-popover-buttons .ant-btn').eq(index).click();
 }
 
@@ -227,7 +237,7 @@ export const clickPopover = (index, selector = '.ant-popover') => {
  */
 export const changeStore = (index) => {
     // 等待2s页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.click('.main-header-container .main-header-current-store-info');
     Tools.queryByIndex('.store-selection-dropdown-list-container .ant-dropdown-menu-item', 1).click();
     Tools.queryByIndex('#switch$Menu .ant-dropdown-menu-item-group-list .ant-dropdown-menu-item', index).click();
@@ -255,7 +265,7 @@ export const selectDate = (index, value, selector = '.main-content-container') =
  */
 export const selectDateTime = (index, value, selector = '.main-content-container') => {
     // 等待1s页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-calendar-picker-input').eq(index).click();
     Tools.queryElement('.ant-calendar-picker-container .ant-calendar-input').type(value);
     Tools.queryElement('.ant-calendar-footer .ant-calendar-ok-btn').click();
@@ -270,7 +280,7 @@ export const selectDateTime = (index, value, selector = '.main-content-container
  */
 export const selectStartAndEndDate = (index, start, end, selector = '.main-content-container') => {
     // 等待1s页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-calendar-picker-input').eq(index).click();
     // 根据时间选择相应的时间
     selectDateByValue(start, '.ant-calendar-picker-container .ant-calendar-range-part.ant-calendar-range-left');
@@ -286,7 +296,7 @@ export const selectStartAndEndDate = (index, start, end, selector = '.main-conte
  */
 export const selectTime = (index, value, selector = '.main-content-container') => {
     // 等待1s页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-time-picker-input').eq(index).click();
     Tools.queryElement('.ant-time-picker-panel-input').type(value);
     Tools.queryElement('body').click();
@@ -299,7 +309,7 @@ export const selectTime = (index, value, selector = '.main-content-container') =
  */
 export const searchInput = (value, selector = '.page-search-params-container') => {
     // 等待1s页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(`${selector} .ant-input-search`).clear().type(`${value}{enter}`);
 }
 
@@ -310,7 +320,7 @@ export const searchInput = (value, selector = '.page-search-params-container') =
  */
 export const clickSwitch = (index, selector = '.main-content-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-switch').eq(index).click();
 }
 
@@ -322,7 +332,7 @@ export const clickSwitch = (index, selector = '.main-content-container') => {
  */
 export const clickRadio = (index, valIndex, selector = '.main-content-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-radio-group').eq(index).find('.ant-radio-wrapper').eq(valIndex).click();
 }
 
@@ -334,7 +344,7 @@ export const clickRadio = (index, valIndex, selector = '.main-content-container'
  */
 export const clickRadioButton = (index, valIndex, selector = '.main-content-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-radio-group').eq(index).find('.ant-radio-button-wrapper').eq(valIndex).click();
 }
 
@@ -345,7 +355,7 @@ export const clickRadioButton = (index, valIndex, selector = '.main-content-cont
  */
 export const clickCheckbox = (index, selector = '.main-content-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-checkbox-wrapper').eq(index).click();
 }
 
@@ -356,7 +366,7 @@ export const clickCheckbox = (index, selector = '.main-content-container') => {
  */
 export const clickModalRadio = (index, valIndex, selector = '.ant-modal-wrap') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     const cls = `${selector} .ant-modal-body`;
     clickRadio(index, valIndex, cls);
 }
@@ -368,7 +378,7 @@ export const clickModalRadio = (index, valIndex, selector = '.ant-modal-wrap') =
  */
 export const clickModalBtn = (index, selector = '.ant-modal-wrap') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryAllElement(selector).then((els) => {
         const len = els.length;
         if (len > 1) {
@@ -394,7 +404,7 @@ export const clickModalBtn = (index, selector = '.ant-modal-wrap') => {
  */
 export const selectTableRow = (index, selector = '.table-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-table-tbody .ant-checkbox-wrapper').eq(index).click();
 }
 
@@ -404,7 +414,7 @@ export const selectTableRow = (index, selector = '.table-container') => {
  */
 export const selectTableAllRow = (selector = '.table-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-table-thead .ant-checkbox-wrapper').first().click();
 }
 
@@ -416,9 +426,9 @@ export const selectTableAllRow = (selector = '.table-container') => {
  */
 export const batchOperateBtn = (batchIndex, valIndex, selector = '.page-params-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     clickGroupBtn(batchIndex, selector);
-    cy.wait(300);
+    cy.wait(600);
     clickDropdownBtn(valIndex);
 }
 
@@ -429,7 +439,7 @@ export const batchOperateBtn = (batchIndex, valIndex, selector = '.page-params-c
  */
 export const clickGroupBtn = (index, selector = '.page-params-container') => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.ant-btn').eq(index).click();
 }
 
@@ -439,7 +449,7 @@ export const clickGroupBtn = (index, selector = '.page-params-container') => {
  */
 export const clickDropdownBtn = (index) => {
     // 等待 300ms 页面加载
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement('.ant-dropdown.ant-dropdown-placement-bottomLeft .ant-dropdown-menu').find('.ant-dropdown-menu-item').eq(index).click();
 }
 
@@ -450,7 +460,7 @@ export const clickDropdownBtn = (index) => {
  * @param {String} selector 容器 class 或者 id，默认值：‘.main-content-container’
  */
 export const clickMultiInput = (index, valIndex=0, selector = '.main-content-container') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(`${selector} .multi-select.touch-in-area`).eq(index).click();
     Tools.queryElement('.multi-select-list-container.touch-in-area').last().find('.multi-select-list').eq(valIndex).click();
 }
@@ -461,7 +471,7 @@ export const clickMultiInput = (index, valIndex=0, selector = '.main-content-con
  * @param {String} selector 容器选择器，class 或者 id，默认值：‘.multi-select-list-container’
  */
 export const clickMultiList = (index, selector = '.multi-select-list-container') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryElement(selector).find('.multi-select-list-ul .multi-select-list').eq(index).click();
 }
 
@@ -472,7 +482,7 @@ export const clickMultiList = (index, selector = '.multi-select-list-container')
  * @param {String} selector 容器选择器，class 或者 id，默认值：‘.multi-select-list-container’
  */
 export const clickGroupMultiList = (index, valIndex, selector = '.multi-select-list-container') => {
-    cy.wait(300);
+    cy.wait(600);
     Tools.queryAllElement(selector).eq(index).find('.multi-select-list').eq(valIndex).click();
 }
 

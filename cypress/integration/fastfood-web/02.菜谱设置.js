@@ -10,7 +10,8 @@ import {
   clickSecondaryMenu,
   clickPopover,
   afterClear,
-} from '../../utils/fastfood-web';
+  redirectTo,
+} from '../../utils/fastfood-web.js';
 
 describe('添加菜谱测试', () => {
   const now = new Date();
@@ -20,8 +21,9 @@ describe('添加菜谱测试', () => {
 
   login()
 
+  redirectTo('菜谱设置', 1, 0)
+  
   it('添加菜谱', () => {
-    clickTopLevelMenu(1);
     clickGroupBtn(0, '.page-search-params-container');
     Tools.inputSetValue('#name', data.name);
     clickModalBtn(1);

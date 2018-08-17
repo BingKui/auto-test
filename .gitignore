@@ -62,7 +62,7 @@ typings/
 
 *.md
 # cypress/integration/*
-# cypress/screenshots/*
+cypress/screenshots/*
 cypress/videos/*
 # cypress/utils/*
 .DS_Store

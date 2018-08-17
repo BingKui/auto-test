@@ -11,7 +11,8 @@ import {
   clickSelectByValue,
   searchInput,
   afterClear,
-} from '../../utils/fastfood-web';
+  redirectTo,
+} from '../../utils/fastfood-web.js';
 
 describe('门店相关操作', () => {
     const now = new Date();
@@ -27,9 +28,9 @@ describe('门店相关操作', () => {
 
     login()
 
+    redirectTo('区域设置', 0, 1)
+
     it('创建大区', () => {
-        clickTopLevelMenu(0);
-        clickSecondaryMenu(1);
         clickGroupBtn(0);
         Tools.inputSetValue('.ant-modal-wrap .ant-select-search__field', data.regionName);
         clickModalBtn(1);
@@ -40,8 +41,10 @@ describe('门店相关操作', () => {
         clickModalBtn(1);
     });
     // it('修改区域', () => {})
+
+    redirectTo('门店设置', 0, 0)
+
     it('新增门店', () => {
-        clickSecondaryMenu(0);
         clickGroupBtn(0, '.page-search-params-container');
         clickSelectByValue(0, `${data.regionName}-${data.areaName}`, '.breadcrumb-page-container');
         Tools.inputSetValue('#resNumber', data.resNumber);
@@ -62,16 +65,20 @@ describe('门店相关操作', () => {
         selectRandowMultiList(3);
         clickModalBtn(1);
     })
+
     it('停用', () => {
         clickTableOperatorBtn(data.name, 3);
         clickPopover(1);
     })
+
     it('删除门店', () => {
         clickTableOperatorBtn(data.name, 4)
         clickPopover(1);
     })
+
+    redirectTo('区域设置', 0, 1)
+
     it('删除区域', () => {
-        clickSecondaryMenu(1);
         Tools.queryAllElement('.ant-table-tbody .ant-table-row').then((els) => {
             for (let i = 0; i < els.length; i++) {
                 let item = cy.$$(els[i]).find('td').first();
@@ -84,9 +91,11 @@ describe('门店相关操作', () => {
         clickTableOperatorBtn(data.areaName, 1, 1);
         clickPopover(1);
     })
+
     it('删除大区', () => {
         clickTableOperatorBtn(data.regionName, 2)
         clickPopover(1);
     })
+
     afterClear();
 })

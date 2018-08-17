@@ -2,7 +2,6 @@ const Tools = require('../../../tools/cypress.js');
 const dayjs = require('dayjs');
 import {
     login,
-    clickTopLevelMenu,
     clickGroupBtn,
     clickSelect,
     changeTab,
@@ -17,7 +16,8 @@ import {
     selectStartAndEndDate,
     clickRadioButton,
     afterClear,
-} from '../../utils/fastfood-web';
+    redirectTo,
+} from '../../utils/fastfood-web.js';
 
 describe('会员相关测试', () => {
     const now = new Date();
@@ -37,8 +37,9 @@ describe('会员相关测试', () => {
 
     login()
 
+    redirectTo('会员卡', 4, 0)
+
     it('新建会员卡类型', () => {
-        clickTopLevelMenu(4);
         changeTab(1);
         clickGroupBtn(0, '.ant-tabs-tabpane-active .page-search-params-container');
         Tools.inputSetValue('#name', data.type);
@@ -63,9 +64,9 @@ describe('会员相关测试', () => {
         clickPopover(1);
     })
 
+    redirectTo('折扣设置', 4, 1)
+
     it('新建会员折扣', () => {
-        clickTopLevelMenu(4);
-        clickSecondaryMenu(1);
         clickGroupBtn(0, '.page-search-params-container');
         Tools.inputSetValue('#name', data.discountName);
         clickRadioButton(0, 1);
@@ -77,17 +78,20 @@ describe('会员相关测试', () => {
         selectGroupRandowMultiList(2, 1);
         clickGroupBtn(0, '.form-button-container');
     })
+
+    redirectTo('折扣设置', 4, 1)
+    
     it('删除会员折扣数据', () => {
-        clickSecondaryMenu(1);
         searchInput(data.discountName);
         clickTableOperatorBtn(data.discountName, 2)
         clickPopover(1);
     })
+
+    redirectTo('充值方案', 4, 2)
+
     it('新建充值方案', () => {
-        clickTopLevelMenu(4);
         const start = dayjs().format('YYYY-MM-DD HH:mm:ss');
         const end = dayjs().add(10, 'day').format('YYYY-MM-DD HH:mm:ss');
-        clickSecondaryMenu(2);
         clickGroupBtn(0, '.page-search-params-container');
         Tools.inputSetValue('#name', data.rechargeName);
         Tools.inputSetValue('#base', '100');

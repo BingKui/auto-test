@@ -10,6 +10,7 @@ import {
     clickPopover,
     clickMultiInput,
     afterClear,
+    redirectTo,
 } from '../../utils/fastfood-web.js';
 
 describe('加料区管理', () => {
@@ -17,10 +18,12 @@ describe('加料区管理', () => {
     const data = {
         name: `AT加料${now.getHours()}${now.getMinutes()}${now.getSeconds()}`,
     };
+
     login()
+
+    redirectTo('加料', 1, 3);
+
     it('新建加料区', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(3);
         clickGroupBtn(0, '.page-search-params-container');
         Tools.inputSetValue('#name', data.name);
         // clickMultiInput(0, 0);

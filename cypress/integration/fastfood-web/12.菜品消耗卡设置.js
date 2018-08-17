@@ -3,8 +3,6 @@ const Tools = require('../../../tools/cypress.js');
 import {
     login,
     afterClear,
-    clickTopLevelMenu,
-    clickSecondaryMenu,
     clickTableOperatorBtn,
     clickSelectByValue,
     clickModalBtn,
@@ -13,6 +11,7 @@ import {
     searchInput,
     clickTableOperatorText,
     clickModalSelect,
+    redirectTo,
 } from '../../utils/fastfood-web';
 
 describe('菜品消耗设置', () => {
@@ -25,10 +24,8 @@ describe('菜品消耗设置', () => {
 
     login()
 
-    it('进入菜品管理', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(1);
-    })
+    redirectTo('菜品菜类', 1, 1)
+
     it('添加菜品', () => {
         clickGroupBtn(0, '.ant-tabs-tabpane-active .page-params-container');
         Tools.inputSetValue('#name', data.name);
@@ -37,10 +34,9 @@ describe('菜品消耗设置', () => {
         Tools.inputSetValue('#price', data.price);
         clickGroupBtn(0, '.form-button-container');
     })
-    it('进入设置消耗配置', () => {
-        clickTopLevelMenu(6);
-        clickSecondaryMenu(0);
-    })
+    
+    redirectTo('菜品配置', 6, 0)
+
     it('修改配置', () => {
         Tools.inputSetValue('.consume-config-table-search-container .ant-input', data.name);
         clickGroupBtn(0, '.consume-config-table-search-container');
@@ -49,10 +45,9 @@ describe('菜品消耗设置', () => {
         clickModalSelect(0, 0);
         clickModalBtn(1);
     })
-    it('进入菜品管理', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(1);
-    })
+
+    redirectTo('菜品菜类', 1, 1)
+
     it('删除测试菜品', () => {
         searchInput(data.name, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.name, 1, 1, '.ant-tabs-tabpane-active');

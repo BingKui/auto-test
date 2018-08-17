@@ -1,7 +1,14 @@
 const Tools = require('../../../tools/cypress.js');
 
 import {
-    login, clickTopLevelMenu, clickSecondaryMenu, changeTab, clickGroupBtn, clickModalBtn, searchInput, clickTableOperatorBtn, clickPopover,
+    login,
+    changeTab,
+    clickGroupBtn,
+    clickModalBtn,
+    searchInput,
+    clickTableOperatorBtn,
+    clickPopover,
+    redirectTo,
 } from '../../utils/fastfood-web';
 
 describe('菜类管理', () => {
@@ -12,14 +19,15 @@ describe('菜类管理', () => {
 
     login()
 
+    redirectTo('菜品菜类', 1, 1);
+
     it('新建菜类', () => {
-        clickTopLevelMenu(1);
-        clickSecondaryMenu(1);
         changeTab(1);
         clickGroupBtn(0, '.ant-tabs-tabpane-active .page-params-container');
         Tools.inputSetValue('#name', data.name);
         clickModalBtn(1);
     })
+
     it('删除菜类', () => {
         searchInput(data.name, '.ant-tabs-tabpane-active .page-params-container');
         clickTableOperatorBtn(data.name, 1, 0, '.ant-tabs-tabpane-active');
