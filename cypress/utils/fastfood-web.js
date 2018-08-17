@@ -27,7 +27,7 @@ export const afterClear = () => {
 export const redirectTo = (menuName, topIndex, secondIndex) => {
     return it(`跳转到${menuName}菜单`, () => {
         clickTopLevelMenu(topIndex);
-        clickSecondaryMenu(secondIndex);
+        clickSecondaryMenu(secondIndex, () => clickTopLevelMenu(topIndex));
     });
 }
 
@@ -176,17 +176,28 @@ export const clickSelectByValue = (index, val, selector = '.main-content-contain
 export const clickTopLevelMenu = (index) => {
     // 等待2s页面加载
     cy.wait(300);
-    Tools.queryByIndex('.main-content-container .main-nav-box .ant-menu-item', index).click();
+    const flag = Tools.queryElement('.main-content-container .main-nav-box');
+    if (flag) {
+        Tools.queryByIndex('.main-content-container .main-nav-box .ant-menu-item', index).click();
+    } else {
+        clickTopLevelMenu(index);
+    }
 }
 
 /**
  * 点击次级菜单方法
  * @param {Number} index 次级菜单下标，从 0 开始
  */
-export const clickSecondaryMenu = (index) => {
+export const clickSecondaryMenu = (index, action) => {
     // 等待2s页面加载
     cy.wait(300);
-    Tools.queryByIndex('.main-content-container .content-container .nav-box .ant-menu-item', index).click();
+    const flag = Tools.queryElement('.main-content-container .content-container .nav-box');
+    if (flag) {
+        Tools.queryByIndex('.main-content-container .content-container .nav-box .ant-menu-item', index).click();
+    } else {
+        action();
+        clickSecondaryMenu(index, () => action());
+    }
 }
 
 /**

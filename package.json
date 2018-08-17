@@ -4,7 +4,7 @@
   "description": "自动化测试项目",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/cypress/bin/cypress run --record --key 7470d117-aa56-4bb3-b1cb-ea65b0c6f888"
+    "start": "node_modules/cypress/bin/cypress run --headed --record --key 7470d117-aa56-4bb3-b1cb-ea65b0c6f888"
   },
   "keywords": [
     "auto-test"
